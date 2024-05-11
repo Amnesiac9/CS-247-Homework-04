@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react'
-import ToDoListSvg from '../assets/undraw_to_do_list_re_9nt7.svg';
+import NewTaskBar from '../components/NewTaskBar';
+import NoTasksYet from '../components/NoTasksYet';
+import { Task } from '../types/Task';
+import TaskList from '../components/TaskList';
 
-
-interface Task {
-    id: string
-    text: string
-    done: boolean
-}
 
 function TaskListPage() {
 
@@ -98,32 +95,20 @@ function TaskListPage() {
     return (
         <>
             <h1>Task List</h1>
-
-            <div className='flex'>
-                <input className='textInput' type='text' placeholder='Enter a new task' value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyDown} ref={inputRef} />
-                <button className='primary' disabled={inputValue.length === 0} onClick={addTask} >Create</button>
-            </div>
-            <div className='card flex center'>
-                <ul className='flex1'>
-                    {taskList.map((task, index) => (
-                        <li className='flex checkListItem' key={index}>
-                            <div className={task.done ? 'checkboxInputChecked' : 'checkboxInput'}>
-                                {<input type='checkbox' id={'checkbox' + index} checked={task.done} onChange={() => {
-                                    console.log(task)
-                                    completeTask(index)
-                                    deleteTaskDelay(task)
-                                }} />}
-                            </div>
-                            <div className={task.done ? 'flex1 alignLeft strikethru' : 'flex1 alignLeft'}>{task.text}</div>
-                            {<button className='link' onClick={() => deleteTask(index)}><img height='16px' src='/iconmonstr-trash-can-thin-240-white.png' /></button>}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <NewTaskBar
+                inputValue={inputValue}
+                addTask={addTask}
+                handleInputChange={handleInputChange}
+                handleKeyDown={handleKeyDown}
+            />
+            <TaskList
+                taskList={taskList}
+                completeTask={completeTask}
+                deleteTaskDelay={deleteTaskDelay}
+                deleteTask={deleteTask}
+            />
             {taskList.length === 0 && (
-                <div className='card center'>
-                    <img src={ToDoListSvg} alt='empty task list'></img>
-                </div>
+                <NoTasksYet />
             )}
         </>
     )
