@@ -12,7 +12,7 @@ function TaskListPage() {
     const inputRef = React.useRef<HTMLInputElement>(null);
     // const deletedRef = React.useRef<number[]>([])
 
-    function focusInput() {
+    const focusInput = () => {
         if (inputRef.current) {
             inputRef.current.focus();
         }
@@ -29,7 +29,7 @@ function TaskListPage() {
     }
 
 
-    function addTask() {
+    const addTask = () => {
         updateTaskList((prevTaskList) => {
             const newTask: Task = {
                 id: prevTaskList.length + "-" + Date.now().toString(),
@@ -43,7 +43,7 @@ function TaskListPage() {
     }
 
     // Makes sure the correct task is deleted AND makes sure it doesn't get deleted when the user unchecks.
-    function deleteTaskDelay(task: Task) {
+    const deleteTaskDelay = (task: Task) => {
         setTimeout(() => {
             updateTaskList((prevTaskList) => {
                 return prevTaskList.filter((t) => {
@@ -56,13 +56,13 @@ function TaskListPage() {
         }, 4000)
     }
 
-    function deleteTask(index: number) {
+    const deleteTask = (index: number) => {
         updateTaskList((prevTaskList) => {
             return prevTaskList.filter((_, i) => i !== index)
         })
     }
 
-    function completeTask(index: number) {
+    const completeTask = (index: number) => {
         updateTaskList((prevTaskList) => {
             //Re-create our task list. This is required for React to update the UI, otherwise our checkboxes won't update.
             const newTaskList: Task[] = []
